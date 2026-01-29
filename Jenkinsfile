@@ -14,7 +14,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     credentialsId: 'git-creds',
-                    url: 'https://github.com/rajaraok9/cicd-k8-demo-git.git
+                    url: 'https://github.com/rajaraok9/cicd-k8-demo-git.git'
             }
         }
         stage('2. CI - Build & Test') {
