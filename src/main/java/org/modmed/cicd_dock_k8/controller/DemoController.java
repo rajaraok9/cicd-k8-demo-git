@@ -1,4 +1,4 @@
-package org.modmed.cicd_docker.controller;
+package org.modmed.cicd_dock_k8.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

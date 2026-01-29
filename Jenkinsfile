@@ -14,7 +14,7 @@ pipeline {
             steps {
                 git branch: 'main',
                     credentialsId: 'git-creds',
-                    url: 'https://github.com/rajaraok9/cicd-demo-git.git'
+                    url: 'https://github.com/rajaraok9/cicd-k8-demo-git.git
             }
         }
         stage('2. CI - Build & Test') {
@@ -32,7 +32,7 @@ pipeline {
                 )]) {
                     sh """
                       # Use dockerBuild so the image is available for the next 'docker run' stage
-                      mvn jib:dockerBuild \
+                      mvn jib:build \
                         -Djib.to.image=${IMAGE_NAME} \
                         -Djib.to.tags=${IMAGE_TAG} \
                         -Djib.to.auth.username=${DOCKER_USER} \
@@ -41,13 +41,15 @@ pipeline {
                 }
             }
         }
-        stage('4. CD - Deploy Locally') {
-            steps {
-                // Use double quotes "" so Groovy can interpolate the ${APP_NAME} variables
-                sh "docker rm -f ${APP_NAME} || true"
-                sh "docker run -d --name ${APP_NAME} -p 8081:8080 ${IMAGE_NAME}:${IMAGE_TAG}"
-                echo "Success! Application is available at http://localhost:8081"
-            }
-        }
+        stage('4. CD - Deploy to Kubernetes') {
+                    steps {
+                        // Replacing 'docker run' with 'kubectl apply'
+                        // envsubst injects the ${IMAGE_TAG} into your deployment.yaml
+                        sh "envsubst < k8s/deployment.yaml | kubectl apply -f -"
+                        sh "kubectl apply -f k8s/service.yaml"
+
+                        echo "Success! The Conductor (K8s) is now managing the Java Band."
+                    }
+                }
     }
 }
