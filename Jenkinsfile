@@ -4,7 +4,7 @@ pipeline {
         maven 'Maven_3.8.5'
     }
     environment {
-        APP_NAME   = "spring-demo"
+        APP_NAME   = "spring-demo-k8"
         REGISTRY   = "docker.io/rajadocker2109"
         IMAGE_NAME = "${REGISTRY}/${APP_NAME}"
         IMAGE_TAG  = "latest"

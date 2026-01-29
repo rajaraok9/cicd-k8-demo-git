@@ -48,6 +48,33 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.0</version>
+
+                <configuration>
+                    <from>
+                        <image>eclipse-temurin:17-jre</image>
+                    </from>
+
+                    <to>
+                        <image>docker.io/rajadocker2109/spring-demo-k8</image>
+                        <tags>
+                            <tag>${project.version}</tag>
+                            <tag>latest</tag>
+                        </tags>
+                    </to>
+
+                    <container>
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+
+                    </container>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
