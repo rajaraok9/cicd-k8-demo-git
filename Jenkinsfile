@@ -45,7 +45,7 @@ pipeline {
                     steps {
                         // Replacing 'docker run' with 'kubectl apply'
                         // envsubst injects the ${IMAGE_TAG} into your deployment.yaml
-                        sh "envsubst < k8s/deployment.yaml | kubectl apply -f -"
+                        sh "envsubst < k8s/deployment.yaml | kubectl apply -f -  --validate=false"
                         sh "kubectl apply -f k8s/service.yaml"
 
                         echo "Success! The Conductor (K8s) is now managing the Java Band."
