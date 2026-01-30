@@ -8,6 +8,7 @@ pipeline {
         REGISTRY   = "docker.io/rajadocker2109"
         IMAGE_NAME = "${REGISTRY}/${APP_NAME}"
         IMAGE_TAG  = "latest"
+         KUBECONFIG = "/root/.kube/config"
     }
     stages {
         stage('1. CI - Checkout') {
