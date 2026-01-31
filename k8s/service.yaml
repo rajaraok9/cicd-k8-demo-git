@@ -8,5 +8,5 @@ spec:
     app: spring-demo-k8 # Finds all Pods labeled "spring-demo-k8"
   ports:
     - protocol: TCP
-      port: 80        # The public port
+      port: 80        # The port exposed by the Service
       targetPort: 8080 # The internal port where Java is listening
