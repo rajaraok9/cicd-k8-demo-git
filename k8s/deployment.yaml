@@ -15,7 +15,7 @@ spec:
       containers:
         - name: spring-demo-k8-container
           # These placeholders will be replaced by Jenkins during the pipeline
-          image: ${IMAGE_NAME}:${IMAGE_TAG}
+          image: spring-k8-demo:latest
           ports:
             - containerPort: 8080
           resources:
