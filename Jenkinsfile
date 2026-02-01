@@ -62,6 +62,7 @@ pipeline {
                   kubectl config current-context
 
                   echo "Applying Deployment..."
+                  kubectl delete deployment spring-demo-deployment --ignore-not-found
                   kubectl apply -f k8s/deployment.yaml
 
                   echo "Applying Service..."
