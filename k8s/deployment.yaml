@@ -14,8 +14,10 @@ spec:
     spec:
       containers:
         - name: spring-demo-k8-container
+
           # These placeholders will be replaced by Jenkins during the pipeline
           image: spring-k8-demo:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           resources:
