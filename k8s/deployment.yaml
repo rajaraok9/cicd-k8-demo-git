@@ -6,11 +6,11 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: spring-demo-k8
+      app: spring-k8-demo
   template:
     metadata:
       labels:
-        app: spring-demo-k8
+        app: spring-k8-demo
     spec:
       containers:
         - name: spring-demo-k8-container

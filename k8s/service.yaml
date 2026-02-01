@@ -5,7 +5,7 @@ metadata:
 spec:
   type: LoadBalancer # Exposes the orchestra to the outside world
   selector:
-    app: spring-demo-k8 # Finds all Pods labeled "spring-demo-k8"
+    app: spring-k8-demo # Finds all Pods labeled "spring-demo-k8"
   ports:
     - protocol: TCP
       port: 80        # The port exposed by the Service
