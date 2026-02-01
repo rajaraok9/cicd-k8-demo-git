@@ -47,7 +47,7 @@ pipeline {
                    docker version
 
                    mvn jib:dockerBuild \
-                     -Djib.to.image=spring-demo
+                     -Djib.to.image=spring-k8-demo
                  '''
              }
          }
