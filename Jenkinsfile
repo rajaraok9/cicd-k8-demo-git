@@ -6,8 +6,8 @@ pipeline {
     }
 
     environment {
-        APP_NAME   = "spring-demo"
-        IMAGE_NAME = "spring-demo:latest"
+        APP_NAME   = "spring-k8-demo"
+        IMAGE_NAME = "spring-k8-demo:latest"
         K8S_NS     = "default"
     }
 
