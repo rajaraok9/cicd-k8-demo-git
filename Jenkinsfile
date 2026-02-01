@@ -37,7 +37,7 @@ pipeline {
            3. CI – Build Docker Image
            (Local Docker daemon via Jib)
            ============================ */
-        sstage('3. CI - Build Docker Image') {
+        stage('3. CI - Build Docker Image') {
              environment {
                  DOCKER_HOST = 'unix:///var/run/docker.sock'
              }
