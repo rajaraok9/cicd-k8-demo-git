@@ -48,7 +48,9 @@ pipeline {
 
                    mvn jib:dockerBuild \
                      -Djib.to.image=spring-k8-demo
-                   kind load docker-image spring-k8-demo:latest --name cicd
+                   docker save spring-k8-demo:latest -o spring-k8-demo.tar
+                   kind load image-archive spring-k8-demo.tar --name cicd
+
                  '''
              }
          }
