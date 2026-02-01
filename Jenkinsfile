@@ -37,14 +37,20 @@ pipeline {
            3. CI – Build Docker Image
            (Local Docker daemon via Jib)
            ============================ */
-        stage('3. CI - Build Docker Image') {
-            steps {
-                sh """
-                  mvn jib:dockerBuild \
-                    -Djib.to.image=${IMAGE_NAME}
-                """
-            }
-        }
+        sstage('3. CI - Build Docker Image') {
+             environment {
+                 DOCKER_HOST = 'unix:///var/run/docker.sock'
+             }
+             steps {
+                 sh '''
+                   echo "Docker info:"
+                   docker version
+
+                   mvn jib:dockerBuild \
+                     -Djib.to.image=spring-demo
+                 '''
+             }
+         }
 
         /* ============================
            4. CD – Deploy to KIND Kubernetes
