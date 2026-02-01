@@ -6,17 +6,20 @@ pipeline {
     }
 
     environment {
+        // --- Application & Kubernetes ---
         APP_NAME   = "spring-demo-deployment"
-        IMAGE_NAME = "spring-k8-demo:latest"
         K8S_NS     = "default"
+
+        // --- Image & Registry ---
+        REGISTRY   = "docker.io/rajadocker2109"
+        IMAGE_NAME = "spring-k8-demo"
+        IMAGE_TAG  = "latest"
+        FULL_IMAGE = "${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
     }
 
     stages {
 
-        /* ============================
-           1. CI – Checkout Source Code
-           ============================ */
-        stage('1. CI - Checkout') {
+        stage('1. Checkout Source') {
             steps {
                 git branch: 'main',
                     credentialsId: 'git-creds',
@@ -24,54 +27,39 @@ pipeline {
             }
         }
 
-        /* ============================
-           2. CI – Build & Test
-           ============================ */
-        stage('2. CI - Build & Test') {
+        stage('2. Build & Unit Test') {
             steps {
                 sh 'mvn clean test'
             }
         }
 
-        /* ============================
-           3. CI – Build Docker Image
-           (Local Docker daemon via Jib)
-           ============================ */
-        stage('3. CI - Build Docker Image') {
-             environment {
-                 DOCKER_HOST = 'unix:///var/run/docker.sock'
-             }
-             steps {
-                 sh '''
-                   echo "Docker info:"
-                   docker version
+        stage('3. Build & Push Docker Image (Jib)') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh """
+                      mvn jib:build \
+                        -Djib.to.image=${FULL_IMAGE} \
+                        -Djib.to.auth.username=${DOCKER_USER} \
+                        -Djib.to.auth.password=${DOCKER_PASS}
+                    """
+                }
+            }
+        }
 
-                   mvn jib:dockerBuild \
-                     -Djib.to.image=spring-k8-demo
-                   docker save spring-k8-demo:latest -o spring-k8-demo.tar
-                   kind load image-archive spring-k8-demo.tar --name cicd
-
-                 '''
-             }
-         }
-
-        /* ============================
-           4. CD – Deploy to KIND Kubernetes
-           ============================ */
-        stage('4. CD - Deploy to Kubernetes (KIND)') {
+        stage('4. Deploy to Kubernetes (KIND)') {
             steps {
                 sh """
-                  echo "Using Kubernetes context:"
-                  kubectl config current-context
+                  echo "Deploying ${FULL_IMAGE} to Kubernetes..."
 
-                  echo "Applying Deployment..."
-                  kubectl delete deployment spring-demo-deployment --ignore-not-found
+                  kubectl delete deployment ${APP_NAME} -n ${K8S_NS} --ignore-not-found
+
                   kubectl apply -f k8s/deployment.yaml
-
-                  echo "Applying Service..."
                   kubectl apply -f k8s/service.yaml
 
-                  echo "Waiting for rollout..."
                   kubectl rollout status deployment/${APP_NAME} -n ${K8S_NS}
                 """
             }
@@ -80,10 +68,10 @@ pipeline {
 
     post {
         success {
-            echo "CI/CD Pipeline completed successfully 🚀"
+            echo "✅ CI/CD Pipeline completed successfully!"
         }
         failure {
-            echo "Pipeline failed ❌ – check logs above"
+            echo "❌ CI/CD Pipeline failed. Check logs above."
         }
     }
 }
