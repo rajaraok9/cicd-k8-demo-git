@@ -6,14 +6,14 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: spring-demo
+      app: spring-demo-k8
   template:
     metadata:
       labels:
-        app: spring-demo
+        app: spring-demo-k8
     spec:
       containers:
-        - name: spring-demo-container
+        - name: spring-demo-k8-container
           # These placeholders will be replaced by Jenkins during the pipeline
           image: ${IMAGE_NAME}:${IMAGE_TAG}
           ports:

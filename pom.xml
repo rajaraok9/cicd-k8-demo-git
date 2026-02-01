@@ -40,6 +40,10 @@
             <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -59,7 +63,7 @@
                     </from>
 
                     <to>
-                        <image>docker.io/rajadocker2109/spring-demo-k8</image>
+                        <image>spring-k8-demo</image>
                         <tags>
                             <tag>${project.version}</tag>
                             <tag>latest</tag>
@@ -70,10 +74,10 @@
                         <ports>
                             <port>8080</port>
                         </ports>
-
                     </container>
                 </configuration>
             </plugin>
+
 
         </plugins>
     </build>
