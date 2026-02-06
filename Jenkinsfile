@@ -33,22 +33,25 @@ pipeline {
             }
         }
 
-        stage('3. Build & Push Docker Image (Jib)') {
-            steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-creds',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
-                )]) {
-                    sh """
-                      mvn jib:build \
-                        -Djib.to.image=${FULL_IMAGE} \
-                        -Djib.to.auth.username=${DOCKER_USER} \
-                        -Djib.to.auth.password=${DOCKER_PASS}
-                    """
-                }
-            }
-        }
+       stage('3. Build & Push Docker Image (Jib)') {
+           steps {
+               withCredentials([usernamePassword(
+                   credentialsId: 'dockerhub-creds',
+                   usernameVariable: 'DOCKER_USER',
+                   passwordVariable: 'DOCKER_PASS'
+               )]) {
+                   sh """
+                     mvn jib:build \
+                       -Djib.to.image=${FULL_IMAGE} \
+                       -Djib.to.auth.username=${DOCKER_USER} \
+                       -Djib.to.auth.password=${DOCKER_PASS} \
+                       -Djib.from.auth.username=${DOCKER_USER} \
+                       -Djib.from.auth.password=${DOCKER_PASS}
+                   """
+               }
+           }
+       }
+
 
         stage('4. Deploy to Kubernetes (KIND)') {
             steps {
