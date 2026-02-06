@@ -63,6 +63,9 @@ pipeline {
 
                   kubectl apply -f k8s/deployment.yaml
                   kubectl apply -f k8s/service.yaml
+                  kubectl apply -f k8s/prometheus-config.yaml
+                  kubectl apply -f k8s/prometheus-deployment.yaml
+                  kubectl apply -f k8s/prometheus-service.yaml
 
                   kubectl rollout status deployment/${APP_NAME} -n ${K8S_NS}
                   echo "Rollout will blocks the pipeline until the deployment is successful. "
