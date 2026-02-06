@@ -2,15 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: java-band-service
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/path: "/actuator/prometheus"
-    prometheus.io/port: "8088" # Prometheus talks to the Pod on 8088
 spec:
   type: LoadBalancer
   selector:
     app: spring-k8-demo
   ports:
-    - protocol: TCP
-      port: 80         # Users visit the app on Port 80
-      targetPort: 8088 # Traffic is sent to Pods on Port 8088
+    - port: 80
+      targetPort: 8088

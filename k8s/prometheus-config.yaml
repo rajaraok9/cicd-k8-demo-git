@@ -13,4 +13,4 @@ data:
         metrics_path: "/actuator/prometheus"
         static_configs:
           - targets:
-              - "java-band-service.default.svc.cluster.local:8088"
+              - "java-band-service.default.svc.cluster.local:80"

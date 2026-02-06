@@ -13,7 +13,7 @@ spec:
         app: spring-k8-demo
     spec:
       containers:
-        - name: spring-demo-k8-container
+        - name: spring-k8-demo
           image: docker.io/rajadocker2109/spring-k8-demo:latest
           imagePullPolicy: Always
           ports:
