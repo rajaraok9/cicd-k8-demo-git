@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         // --- Application & Kubernetes ---
-        APP_NAME   = "spring-demo-deployment"
+        APP_NAME   = "spring-k8-demo"
         K8S_NS     = "default"
 
         // --- Image & Registry ---
