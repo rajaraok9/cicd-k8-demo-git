@@ -17,4 +17,4 @@ spec:
           image: docker.io/rajadocker2109/spring-k8-demo:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 8088

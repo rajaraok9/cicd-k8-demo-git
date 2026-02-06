@@ -5,7 +5,7 @@ metadata:
   annotations:
     prometheus.io/scrape: "true"
     prometheus.io/path: "/actuator/prometheus"
-    prometheus.io/port: "8080" # Prometheus talks to the Pod on 8080
+    prometheus.io/port: "8088" # Prometheus talks to the Pod on 8088
 spec:
   type: LoadBalancer
   selector:
@@ -13,4 +13,4 @@ spec:
   ports:
     - protocol: TCP
       port: 80         # Users visit the app on Port 80
-      targetPort: 8080 # Traffic is sent to Pods on Port 8080
+      targetPort: 8088 # Traffic is sent to Pods on Port 8088

@@ -13,4 +13,4 @@ data:
         metrics_path: "/actuator/prometheus"
         static_configs:
           - targets:
-              - "spring-k8-demo.default.svc.cluster.local:80"
+              - "java-band-service.default.svc.cluster.local:80"
