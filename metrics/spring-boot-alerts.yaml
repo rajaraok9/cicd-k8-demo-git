@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: spring-boot-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: spring-boot.rules
+      rules:
+        - alert: SpringBootAppDown
+          expr: up{job="spring-boot-app"} == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Spring Boot app is DOWN"
+            description: "spring-boot-app has been down for more than 1 minute"

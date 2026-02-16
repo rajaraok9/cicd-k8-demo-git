@@ -3,14 +3,16 @@ kind: ServiceMonitor
 metadata:
   name: spring-boot-app
   namespace: monitoring
+  labels:
+    release: monitoring          # 🔴 THIS WAS MISSING
 spec:
   selector:
     matchLabels:
-      app: spring-k8-demo        # MUST match Service label
+      app: spring-k8-demo
   namespaceSelector:
     matchNames:
       - default
   endpoints:
-    - port: http                # MUST match Service port name
+    - port: http
       path: /actuator/prometheus
       interval: 15s
