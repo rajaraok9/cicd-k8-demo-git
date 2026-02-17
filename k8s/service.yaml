@@ -6,7 +6,7 @@ metadata:
   labels:
     app: spring-k8-demo     # 🔴 REQUIRED
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: spring-k8-demo
   ports:
