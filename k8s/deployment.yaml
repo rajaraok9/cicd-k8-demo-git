@@ -14,11 +14,12 @@ spec:
         app: spring-k8-demo
     spec:
       containers:
-        - envFrom:
-            - configMapRef:
-                name: app-config
+
         - name: spring-k8-demo
           image: docker.io/rajadocker2109/spring-k8-demo:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8088
+          envFrom:
+            - configMapRef:
+                name: app-config
