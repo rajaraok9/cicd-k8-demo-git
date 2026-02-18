@@ -6,7 +6,7 @@ metadata:
   labels:
     app: spring-k8-demo     # 🔴 REQUIRED
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: spring-k8-demo
   ports:
