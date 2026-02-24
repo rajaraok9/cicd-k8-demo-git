@@ -49,23 +49,22 @@ pipeline {
             }
         }
 
-        stage('4. Deploy to Kubernetes (KIND)') {
-            steps {
-                // --- THIS IS THE CRITICAL ADDITION ---
-                // Ensure 'k8s-config' matches the ID you gave the Secret File in Jenkins Credentials
-                withKubeConfig([credentialsId: 'k8s-config']) {
-                    sh """
-                      echo "Deploying ${FULL_IMAGE} to Kubernetes..."
+       stage('4. Deploy to Kubernetes (KIND)') {
+           steps {
+               // Using the 'withCredentials' method we discussed
+               withCredentials([file(credentialsId: 'k8s-config', variable: 'KUBECONFIG')]) {
+                   sh """
+                     echo "Deploying ${FULL_IMAGE} to Kubernetes..."
 
-                      # Apply manifests
-                      kubectl apply -f k8s/deployment.yaml
-                      kubectl apply -f k8s/service.yaml
+                     # Add the insecure flag to bypass the certificate name check
+                     kubectl apply -f k8s/deployment.yaml --insecure-skip-tls-verify=true
+                     kubectl apply -f k8s/service.yaml --insecure-skip-tls-verify=true
 
-                      # Check status (using --insecure-skip-tls-verify if using host IP)
-                      kubectl rollout status deployment/${APP_NAME} -n ${K8S_NS}
-                    """
-                }
-            }
+                     kubectl rollout status deployment/${APP_NAME} -n ${K8S_NS} --insecure-skip-tls-verify=true
+                   """
+               }
+           }
+       }
         }
     }
 
