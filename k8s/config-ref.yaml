@@ -6,3 +6,4 @@ data:
   application.properties: |
     server.port=8088
     feature.enabled=true
+
