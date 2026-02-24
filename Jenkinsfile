@@ -49,24 +49,21 @@ pipeline {
             }
         }
 
-       stage('4. Deploy to Kubernetes (KIND)') {
-           steps {
-               // Using the 'withCredentials' method we discussed
-               withCredentials([file(credentialsId: 'k8s-config', variable: 'KUBECONFIG')]) {
-                   sh """
-                     echo "Deploying ${FULL_IMAGE} to Kubernetes..."
+        stage('4. Deploy to Kubernetes (KIND)') {
+            steps {
+                withCredentials([file(credentialsId: 'k8s-config', variable: 'KUBECONFIG')]) {
+                    sh """
+                      echo "Deploying ${FULL_IMAGE} to Kubernetes..."
 
-                     # Add the insecure flag to bypass the certificate name check
-                     kubectl apply -f k8s/deployment.yaml --insecure-skip-tls-verify=true
-                     kubectl apply -f k8s/service.yaml --insecure-skip-tls-verify=true
+                      kubectl apply -f k8s/deployment.yaml --insecure-skip-tls-verify=true
+                      kubectl apply -f k8s/service.yaml --insecure-skip-tls-verify=true
 
-                     kubectl rollout status deployment/${APP_NAME} -n ${K8S_NS} --insecure-skip-tls-verify=true
-                   """
-               }
-           }
-       }
-        }
-    }
+                      kubectl rollout status deployment/${APP_NAME} -n ${K8S_NS} --insecure-skip-tls-verify=true
+                    """
+                }
+            }
+        } // End Stage 4
+    } // End Stages
 
     post {
         success {
