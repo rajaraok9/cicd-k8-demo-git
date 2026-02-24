@@ -59,7 +59,6 @@ pipeline {
                 sh """
                   echo "Deploying ${FULL_IMAGE} to Kubernetes..."
 
-                  kubectl delete deployment ${APP_NAME} -n ${K8S_NS} --ignore-not-found
                   kubectl apply -f k8s/config-ref.yaml
                   kubectl apply -f k8s/deployment.yaml
                   kubectl apply -f k8s/service.yaml
